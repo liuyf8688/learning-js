@@ -1,0 +1,126 @@
+<li>Node1</li>
+<li>Node2</li>
+<li>Node3</li>
+<li>Node4</li>
+<li>Node5</li>
+<li>Node6</li>
+<li>Node7</li>
+<script>
+	// For Actual Arrays
+	// 1. Use forEach and related (ES5+)
+	var array = ["a", , "b", , "d", "", "c"];
+	array.forEach(function(entry) {
+		console.log(entry); // Note: Skip non-existent entries in sparse arrays.  
+	});
+	// The iterator function is called with three:
+	// (1) the value of each entry,
+	// (2) the index of that entry,
+	// (3) a reference to the array you're iterating over
+	array.forEach(function(entry, index, _array) {
+		console.log(index + " ===>>> " + entry
+			+ ", _array[" + index + "] ===>>> " + _array[index]);
+	});
+	// array.prototype.every
+	array.every(function(entry) {
+		console.log("array.prototype.every: " + entry);
+		if (entry == "c") {
+			return false;
+		}
+		return true;
+	});
+	// array.prototype.some
+	array.some(function(entry) {
+		console.log("array.prototype.some: " + entry);
+		if (entry == "c") {
+			return true;
+		}
+		return false;
+	});
+	// array.prototype.filter
+	var filterArray = array.filter(function(entry) {
+		if (entry == "c") {
+			return false;
+		}
+		return true;
+	});
+	filterArray.forEach(function(entry) {
+		console.log("array.prototype.filter: " + entry);
+	});
+	// array.prototype.map
+	var mapArray = array.map(function(entry) {
+		// console.log("array.prototype.map.inside: " + entry);
+		return entry;
+	});
+	console.log(mapArray);
+	mapArray.forEach(function(entry) {
+		console.log("array.prototype.map.outside: " + entry);
+	});
+	//
+	// 2. Use a simple for loop
+	for (var index = 0, len = array.length; index < len; index ++) {
+		console.log("using a simple for loop: " + array[index]);
+	}
+	// 3. Use for-in correctly
+	var a = [];
+	a[0] = 'a';
+	a[10] = "b";
+	a[100] = "c";
+	for (var key in a) {
+		console.log("for-in: " + key);
+	}
+	// 4. Use for-of
+	for (var key of a) {
+		console.log("for-of: " + key);
+	}
+	// 5. Use an iterator explicitly (ES2015+)
+	// values
+	/*
+	var it = array.values();
+	var entry = it.next();
+	while (!(entry = it.next()).done()) {
+		console.log("array.values: " + entry);
+	}
+	 */
+	// keys
+	var keys = array.keys();
+	for (var key of keys) {
+		console.log("array.keys: " + array[key]);
+	}
+	// entries
+	var entries = array.entries();
+	for (var entry of entries) {
+		console.log("array.entries: " + entry[0] + " ===>>> " + entry[1]);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	console.log();
+	console.log();
+	console.log();
+
+	// For Array-Like Objects
+	// 1. Use forEach and related(ES5+)
+	var nodes = document.getElementsByTagName("LI");
+	console.log("The length of nodes: " + nodes.length);
+	Array.prototype.forEach.call(nodes, function(node) {
+		console.log("Array.prototype.forEach.call: " + node.innerHTML);
+	});
+	// 2. Use a simple for loop
+	// 3. Use for-in correctly
+	// 4. Use for-of (ES2015+)
+	// Use an iterator explicitly (ES2015+)
+	// 5. Create a true array
+	// 5.1 Use the slice method of arrays
+	var trueArray1 = Array.prototype.slice.call(nodes);
+	console.log(trueArray1);
+	// 5.2 Use the spread operator(...)
+	// var trueArray2 = [...nodes];
+	// console.log(trueArray2);
+	// 5.3 Use Array.from
+	// var lis = Array.from(nodes);
+	// console.log(lis);
+</script>
